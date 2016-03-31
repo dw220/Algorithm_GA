@@ -30,6 +30,9 @@ public class Ga {
 		}
 	}
 	
+	public Chromosome getBest(){
+		return this.currentBest;
+	}
 	public void setSol(int solution){
 		this.solution = solution;
 	}
@@ -38,16 +41,17 @@ public class Ga {
 	{
 		double minimizeSign = maximize ? -1. : 1.;
 		currentBest = chromosomes[0];
+		found = false;
 		
 		for(int i=0; i<iterations; i++){
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(chromosomes[x].getBits());
+				System.out.println(fitness);
 				chromosomes[x].setFitness(fitness);
 				if (minimizeSign * fitness < minimizeSign * goodness.fitness(currentBest.getBits())) {
 					currentBest = chromosomes[x];
 					if ( Math.abs(fitness - solution) < 0.001 ) {
 							solIter = i + 1;
-							//System.out.println("Solution has been found");
 							found = true;
 							return;
 					} 
@@ -71,21 +75,24 @@ public class Ga {
 				
 				Chromosome winner    = tournament(a,b);
 				Chromosome winnerTwo = tournament(c,d);
-				
-				if(operations < C.mutation){
+				if(operations < C.mutation)
+				{
 					Chromosome newWinner = tournament(winner,winnerTwo);
 					newWinner.mutate();
 					newGen[j] = newWinner;
 				} 
-				else if( operations < C.crossOver){
+				else if( operations < C.crossOver)
+				{
 					crossOver(winner, winnerTwo);
 					Chromosome newWinner = crossOver(winner, winnerTwo);
 					newGen[j] = newWinner; 
-				} else{
+				} else
+				{
 					newGen[j] = currentBest;
 				}
 		    }
 			chromosomes = newGen;
+			System.out.println("Generation no: " + i + " " + this.currentBest + " " + goodness.fitness(currentBest.getBits()));
 		}
 	}
 	
