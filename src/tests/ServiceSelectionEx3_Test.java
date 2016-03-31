@@ -75,8 +75,8 @@ public class ServiceSelectionEx3_Test {
 			bpso.optimize(1000, serviceSelectionEx3, true);
 
 			
-//			found += (bpso.getFound() ? 1 : 0);
-//			iterations += bpso.getSolIterations();
+			found += (bpso.getFound() ? 1 : 0);
+			iterations += bpso.getSolIter();
 			long end = System.currentTimeMillis() - start;
 			
 			sumTimes += end;

@@ -8,14 +8,11 @@ public class Ga {
 	
 	// Set Solution
 	int solution = 160;
-	
 	Chromosome[] chromosomes;
-	
 	int noChromosomes;
 	int noDimensions;
-	
-	int curIter  = 0;
-	
+	int solIter;
+	boolean found;
 	Chromosome currentBest;
 	
 	public Ga(int noChromosomes, int noDimensions){
@@ -49,8 +46,9 @@ public class Ga {
 				if (minimizeSign * fitness < minimizeSign * goodness.fitness(currentBest.getBits())) {
 					currentBest = chromosomes[x];
 					if ( Math.abs(fitness - solution) < 0.001 ) {
-							curIter = i + 1;
+							solIter = i + 1;
 							//System.out.println("Solution has been found");
+							found = true;
 							return;
 					} 
 				}	
@@ -68,24 +66,25 @@ public class Ga {
 			for(int j=1; j<newGen.length; j++){
 				Chromosome a = getRandom(); 
 				Chromosome b = getRandom();
-				
 				Chromosome c = getRandom();
 				Chromosome d = getRandom();
 				
-				Chromosome winner = tournament(a,b);
+				Chromosome winner    = tournament(a,b);
 				Chromosome winnerTwo = tournament(c,d);
 				
-			if(operations < C.mutation){
-				//Perform mutation
-				
-			} 
-			else if( operations < C.crossOver){
-				//Perform crossover
-				crossOver(winner, winnerTwo);
-			}
-			
-			// Set new population
-			}
+				if(operations < C.mutation){
+					Chromosome newWinner = tournament(winner,winnerTwo);
+					newWinner.mutate();
+					newGen[j] = newWinner;
+				} 
+				else if( operations < C.crossOver){
+					crossOver(winner, winnerTwo);
+					Chromosome newWinner = crossOver(winner, winnerTwo);
+					newGen[j] = newWinner; 
+				} else{
+					newGen[j] = currentBest;
+				}
+		    }
 			chromosomes = newGen;
 		}
 	}
@@ -108,7 +107,7 @@ public class Ga {
 	public Chromosome crossOver(Chromosome a, Chromosome b){
 		boolean[] temp = new boolean[a.getBits().length];
 		Chromosome c = new Chromosome(noDimensions);
-		for(int i=0;i<10;i++){
+		for(int i=0;i<noDimensions;i++){
 			double point = 0.4;
 			if(point*10 < i){
 				temp[i] = a.getBits()[i];
@@ -124,5 +123,11 @@ public class Ga {
 	    return chromosomes[rnd];
 	}
 	
+	public int getSolIter(){
+		return this.solIter;
+	}
 	
+	public boolean getFound(){
+		return this.found;
+	}
 }
