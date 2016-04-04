@@ -40,7 +40,7 @@ public class Population {
 		Chromosome[] newGen = new Chromosome[chromosomes.length];
 		newGen[0] 			= best;
 		
-		for(int j=1; j<newGen.length; j++){
+		for(int j=0; j<newGen.length; j++){
 			Chromosome winner    = tournament();
 			Chromosome winnerTwo = tournament();
 			

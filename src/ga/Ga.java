@@ -16,7 +16,8 @@ public class Ga {
 	Chromosome currentBest;
 	Population population;
 	
-	public Ga(int noChromosomes, int noDimensions){
+	public Ga(int noChromosomes, int noDimensions)
+	{
 		this.noChromosomes = noChromosomes;
 		this.noDimensions  = noDimensions;
 		 population = new Population();
@@ -45,6 +46,7 @@ public class Ga {
 				
 				if (minimizeSign * fitness < minimizeSign * goodness.fitness(currentBest.getBits())) {
 					currentBest = population.getChromosome(x);
+					population.setBest(currentBest);
 					if ( Math.abs(fitness - solution) < 0.001 ) {
 							solIter = i + 1;
 							found = true;
