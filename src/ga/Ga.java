@@ -41,7 +41,7 @@ public class Ga {
 		for(int i=0; i<iterations; i++){
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(population.getChromosome(x).getBits());
-				System.out.println(goodness.fitness(population.getChromosome(x).getBits()));
+				//System.out.println(goodness.fitness(population.getChromosome(x).getBits()));
 				population.getChromosome(x).setFitness(fitness);
 				
 				if (minimizeSign * fitness < minimizeSign * goodness.fitness(currentBest.getBits())) {
@@ -58,7 +58,7 @@ public class Ga {
 			//Elitisim carry over strongest gene which is the current fitessest
 		
 			population = population.nextGen();
-			System.out.println("Generation no: " + i + " " + this.currentBest + " " + goodness.fitness(currentBest.getBits()));
+			//System.out.println("Generation no: " + i + " " + this.currentBest + " " + goodness.fitness(currentBest.getBits()));
 		}
 	}
 	

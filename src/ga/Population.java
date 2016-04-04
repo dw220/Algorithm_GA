@@ -4,7 +4,7 @@ import Global.C;
 
 public class Population {
 	
-	Chromosome[] chromosomes;
+	private Chromosome[] chromosomes;
 	Chromosome best;
 	
 	public Population(){
@@ -47,7 +47,7 @@ public class Population {
 	
 	public Population nextGen(){
         Population newPopulation = new Population();
-        boolean elitism = true;
+        boolean elitism = false;
         // Keep our best individual
         
         if (elitism) {
@@ -56,19 +56,17 @@ public class Population {
         }
 
         // Crossover population
-        int elitismOffset;
-        if (elitism) {
-            elitismOffset = 1;
-        } else {
-            elitismOffset = 0;
-        }
+        int elitismOffset = (elitism) ? 1 : 0;
+
         // Loop over the population size and create new individuals with
         // crossover
         for (int i = elitismOffset; i < this.chromosomes.length; i++) 
         {
-            Chromosome indiv1 = tournament();
+        	Chromosome newIndiv = new Chromosome(5);
+            Chromosome indiv1 = this.best;
             Chromosome indiv2 = tournament();
-            Chromosome newIndiv = crossOver(indiv1, indiv2);
+            
+            newIndiv = crossOver(indiv1, indiv2);
             newPopulation.setChromosome(i, newIndiv);
         }
 
@@ -76,9 +74,6 @@ public class Population {
         for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
             newPopulation.getChromosome(i).mutate();
         }
-
-        
-        
         return newPopulation;
 	}
 	
@@ -95,9 +90,11 @@ public class Population {
         for (int i = 0; i < a.getBits().length; i++) {
             // Crossover
             if (Math.random() <= 0.5) {
-                newSol.setBit(i, a.getBits()[i]);
+            	boolean[] bit = a.getBits();
+                newSol.setBit(i, bit[i]);
             } else {
-            	newSol.setBit(i, b.getBits()[i]);
+            	boolean[] bit = b.getBits();
+            	newSol.setBit(i, bit[i]);
             }
         }
         return newSol;
@@ -111,7 +108,6 @@ public class Population {
 		for(int i=0;i<tournament.length; i++){
 			 int randomId = (int) (Math.random() * chromosomes.length);
 			 tournament[i] = chromosomes[randomId];
-			 
 		}
 		c = getFitest(tournament);
 		return c;
