@@ -34,6 +34,10 @@ public class Chromosome {
 		}
 	}
 	
+	public void setBit(int i, boolean b){
+		this.bits[i] = b;
+	}
+	
 	public void mutate()
 	{
 		for(boolean b : bits){

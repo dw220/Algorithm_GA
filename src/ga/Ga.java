@@ -4,6 +4,7 @@ import java.util.Random;
 
 import Global.C;
 
+
 public class Ga {
 	
 	// Set Solution
@@ -47,51 +48,20 @@ public class Ga {
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(chromosomes[x].getBits());
 				System.out.println(fitness);
-				chromosomes[x].setFitness(fitness);
-				if (minimizeSign * fitness < minimizeSign * goodness.fitness(currentBest.getBits())) {
-					currentBest = chromosomes[x];
-					if ( Math.abs(fitness - solution) < 0.001 ) {
-							solIter = i + 1;
-							found = true;
-							return;
-					} 
-				}	
+//				chromosomes[x].setFitness(fitness);
+//				if (minimizeSign * fitness < minimizeSign * goodness.fitness(currentBest.getBits())) {
+//					currentBest = chromosomes[x];
+//					if ( Math.abs(fitness - solution) < 0.001 ) {
+//							solIter = i + 1;
+//							found = true;
+//							return;
+//					} 
+//				}	
 			}
-			//Genetic operations
-			
-			
+			//Genetic operations		
 			//Elitisim carry over strongest gene which is the current fitessest
-			double operations = C.randomDouble();
-			Chromosome[] newGen = new Chromosome[chromosomes.length];
-			newGen[0] = this.currentBest;
-			
-			
-			
-			for(int j=1; j<newGen.length; j++){
-				Chromosome a = getRandom(); 
-				Chromosome b = getRandom();
-				Chromosome c = getRandom();
-				Chromosome d = getRandom();
-				
-				Chromosome winner    = tournament(a,b);
-				Chromosome winnerTwo = tournament(c,d);
-				if(operations < C.mutation)
-				{
-					Chromosome newWinner = tournament(winner,winnerTwo);
-					newWinner.mutate();
-					newGen[j] = newWinner;
-				} 
-				else if( operations < C.crossOver)
-				{
-					crossOver(winner, winnerTwo);
-					Chromosome newWinner = crossOver(winner, winnerTwo);
-					newGen[j] = newWinner; 
-				} else
-				{
-					newGen[j] = currentBest;
-				}
-		    }
-			chromosomes = newGen;
+		
+			nextGen(this.chromosomes);
 			System.out.println("Generation no: " + i + " " + this.currentBest + " " + goodness.fitness(currentBest.getBits()));
 		}
 	}
@@ -100,29 +70,75 @@ public class Ga {
 		this.currentBest = newBest;
 	}
 	
+	public void nextGen(Chromosome[] gen){
+		double operations   = C.randomDouble();
+		Chromosome[] newGen = new Chromosome[chromosomes.length];
+		newGen[0] 			= this.currentBest;
+		
+		for(int j=1; j<newGen.length; j++){
+			Chromosome winner    = tournament();
+			Chromosome winnerTwo = tournament();
+			
+			if(operations < C.mutation)
+			{
+				Chromosome newWinner = tournament();
+				newWinner.mutate();
+				newGen[j] = newWinner;
+			} 
+			else if( operations < C.crossOver)
+			{
+				crossOver(winner, winnerTwo);
+				Chromosome newWinner = crossOver(winner, winnerTwo);
+				newGen[j] = newWinner; 
+			} else
+			{
+				newGen[j] = currentBest;
+			}
+	    }
+		chromosomes = newGen;
+	}
+	
 	/**
 	 * Tournament for the population
 	 */
-	public Chromosome tournament(Chromosome a, Chromosome b){
-		Chromosome c = (Math.abs(a.getFitness()) < Math.abs(b.getFitness())) ? a : b;
+	public Chromosome tournament(){
+		Chromosome c;
+		Chromosome[] tournament = new Chromosome[4];
+		
+		for(int i=0;i<tournament.length; i++){
+			 int randomId = (int) (Math.random() * chromosomes.length);
+			 tournament[i] = chromosomes[randomId];
+			 
+		}
+		c = getFitest(tournament);
 		return c;
+	}
+	
+	public Chromosome getFitest(Chromosome[] c){
+		Chromosome fittest = c[0];
+		for(int i=0; i<c.length;i++){
+			if(Math.abs(c[i].getFitness()) <= Math.abs(fittest.getFitness())){
+				fittest =chromosomes[i];
+			}
+		}
+		return fittest;
 	}
 	
 	/**
 	 * Cross over on the chromosomes
 	 */
 	public Chromosome crossOver(Chromosome a, Chromosome b){
-		boolean[] temp = new boolean[a.getBits().length];
-		Chromosome c = new Chromosome(noDimensions);
-		for(int i=0;i<noDimensions;i++){
-			double point = 0.4;
-			if(point*10 < i){
-				temp[i] = a.getBits()[i];
-			} else
-				temp[i] = b.getBits()[i];
-		}
-		c.setBits(temp);
-		return c;
+        Chromosome newSol = new Chromosome(this.noDimensions);
+        // Loop through genes
+        for (int i = 0; i < a.getBits().length; i++) {
+            // Crossover
+            if (Math.random() <= 0.5) {
+                newSol.setBit(i, a.getBits()[i]);
+            } else {
+            	newSol.setBit(i, b.getBits()[i]);
+            }
+        }
+        return newSol;
 	}	
 	
 	public Chromosome getRandom() {
