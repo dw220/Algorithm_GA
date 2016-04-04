@@ -65,7 +65,7 @@ public class ServiceSelectionEx3_Test {
 		Chromosome best = null;
 		
 		for (int i = 1; i <= max; i++) {
-			Ga bpso = new Ga(5, ServiceSelectionEx3.NUM_DIMENSIONS);
+			Ga bpso = new Ga(10, ServiceSelectionEx3.NUM_DIMENSIONS);
 			
 			ServiceSelectionEx3 serviceSelectionEx3 = new ServiceSelectionEx3(
 					200, costData, costWlan, utilities);

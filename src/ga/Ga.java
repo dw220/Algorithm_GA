@@ -35,7 +35,7 @@ public class Ga {
 	public void optimize(int iterations, Goodness goodness, boolean maximize)
 	{
 		double minimizeSign = maximize ? -1. : 1.;
-		currentBest = population.getChromosome(0);
+		currentBest = population.best;
 		found = false;
 		
 		for(int i=0; i<iterations; i++){
@@ -57,10 +57,12 @@ public class Ga {
 			//Genetic operations		
 			//Elitisim carry over strongest gene which is the current fitessest
 		
-			population.nextGen();
+			population = population.nextGen();
 			System.out.println("Generation no: " + i + " " + this.currentBest + " " + goodness.fitness(currentBest.getBits()));
 		}
 	}
+	
+
 	
 	public void setBest(Chromosome newBest){
 		this.currentBest = newBest;

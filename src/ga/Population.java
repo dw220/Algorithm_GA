@@ -7,6 +7,10 @@ public class Population {
 	Chromosome[] chromosomes;
 	Chromosome best;
 	
+	public Population(){
+		initPop();
+	}
+	
 	public void initPop(){
 		chromosomes = new Chromosome[10];
 		for(int i=0; i<10; i++){
@@ -14,13 +18,15 @@ public class Population {
 			c.initChromosome();
 			chromosomes[i] = c;
 		}
+		
+		best = getFitest(chromosomes);
 	}
 	
 	public Chromosome getFitest(Chromosome[] c){
 		Chromosome fittest = c[0];
 		for(int i=0; i<c.length;i++){
 			if(Math.abs(c[i].getFitness()) <= Math.abs(fittest.getFitness())){
-				fittest =chromosomes[i];
+				fittest = chromosomes[i];
 			}
 		}
 		return fittest;
@@ -31,37 +37,53 @@ public class Population {
 		return chromosomes[pos];
 	}
 	
+	public void setChromosome(int pos, Chromosome c){
+		chromosomes[pos] = c;
+	}
+	
 	public void setBest(Chromosome best){
 		this.best = best;
 	}
 	
 	public Population nextGen(){
-		double operations   = C.randomDouble();
-		Chromosome[] newGen = new Chromosome[chromosomes.length];
-		newGen[0] 			= best;
-		
-		for(int j=0; j<newGen.length; j++){
-			Chromosome winner    = tournament();
-			Chromosome winnerTwo = tournament();
-			
-			if(C.randomDouble() < C.mutation)
-			{
-				Chromosome newWinner = tournament();
-				newWinner.mutate();
-				newGen[j] = newWinner;
-			} 
-			else if( C.randomDouble() < C.crossOver)
-			{
-				crossOver(winner, winnerTwo);
-				Chromosome newWinner = crossOver(winner, winnerTwo);
-				newGen[j] = newWinner; 
-			} else
-			{
-				newGen[j] = best;
-			}
-	    }
-		chromosomes = newGen;
-		return this;
+        Population newPopulation = new Population();
+        boolean elitism = true;
+        // Keep our best individual
+        
+        if (elitism) {
+            newPopulation.setChromosome(0, best);
+            newPopulation.setBest(best);
+        }
+
+        // Crossover population
+        int elitismOffset;
+        if (elitism) {
+            elitismOffset = 1;
+        } else {
+            elitismOffset = 0;
+        }
+        // Loop over the population size and create new individuals with
+        // crossover
+        for (int i = elitismOffset; i < this.chromosomes.length; i++) 
+        {
+            Chromosome indiv1 = tournament();
+            Chromosome indiv2 = tournament();
+            Chromosome newIndiv = crossOver(indiv1, indiv2);
+            newPopulation.setChromosome(i, newIndiv);
+        }
+
+        // Mutate population
+        for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
+            newPopulation.getChromosome(i).mutate();
+        }
+
+        
+        
+        return newPopulation;
+	}
+	
+	public int getSize(){
+		return chromosomes.length;
 	}
 	
 	/**
