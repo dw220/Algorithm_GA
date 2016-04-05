@@ -65,7 +65,7 @@ public class ServiceSelectionEx3_Test {
 		Chromosome best = null;
 		
 		for (int i = 1; i <= max; i++) {
-			Ga bpso = new Ga(10, ServiceSelectionEx3.NUM_DIMENSIONS);
+			Ga bpso = new Ga(5, ServiceSelectionEx3.NUM_DIMENSIONS);
 			
 			ServiceSelectionEx3 serviceSelectionEx3 = new ServiceSelectionEx3(
 					200, costData, costWlan, utilities);
@@ -82,14 +82,12 @@ public class ServiceSelectionEx3_Test {
 			long end = System.currentTimeMillis() - start;
 			
 			sumTimes += end;
-			best = bpso.getBest();
 //			System.out.println("Particle value: " + Particle.getValue(Particle.bestGlobal()));
 //			System.out.println("Particle bit string: " + Arrays.toString(Particle.bestGlobal()));
 //			System.out.println("Particle goodness: " + serviceSelectionEx3.getGoodness(Particle.bestGlobal()));
 			
 		}
 		
-		System.out.println(best);
 		System.out.println("Time spend: " + sumTimes/max);
 		System.out.println("Iterations: " + iterations/max);
 		System.out.println("Success: " + found);

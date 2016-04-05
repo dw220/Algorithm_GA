@@ -21,6 +21,8 @@ public class TestDejongs {
 		System.out.println("Particle value: " + Population.getValue(Population.bestGlobal().getBits()));
 		System.out.println("Particle bit string: " + Arrays.toString(Population.bestGlobal().getBits()));
 		System.out.println("Particle goodness: " + goodness.fitness(Population.bestGlobal().getBits()));
+		System.out.println("----" + Math.abs(SphereFunction.MIN - goodness.getValue(Population.bestGlobal().getBits())));
+
 		assertTrue( Math.abs(SphereFunction.MIN - goodness.getValue(Population.bestGlobal().getBits())) < 0.5);
 	}
 	
@@ -34,6 +36,7 @@ public class TestDejongs {
 		System.out.println("Particle value: " + Population.getValue(Population.bestGlobal().getBits()));
 		System.out.println("Particle bit string: " + Arrays.toString(Population.bestGlobal().getBits()));
 		System.out.println("Particle goodness: " + goodness.fitness(Population.bestGlobal().getBits()));
+		System.out.println("----" + Math.abs(SphereFunction.MAX - goodness.fitness(Population.bestGlobal().getBits())));
 		assertTrue( Math.abs(SphereFunction.MAX - goodness.fitness(Population.bestGlobal().getBits())) < 0.5
 				    || Math.abs(-SphereFunction.MAX - goodness.getValue(Population.bestGlobal().getBits())) < 0.5);
 	}

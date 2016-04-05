@@ -41,13 +41,18 @@ public class Chromosome {
 	public void mutate()
 	{
 		for(boolean b : bits){
-			if(C.randomDouble() <= C.mutation)
+			if(randomDouble() < 0.2)
 			b = (b) ? false : true;
 		}
 	}
 	
 	public void setBits(boolean[] bits){
 		this.bits = bits;
+	}
+	
+	public double randomDouble(){
+		Random rand = new Random();
+		return rand.nextDouble();
 	}
 	
 	

@@ -1,20 +1,26 @@
 package ga;
 
+import java.util.Random;
+
 import Global.C;
 
 public class Population {
 	
 	private Chromosome[] chromosomes;
 	static Chromosome best;
+	int noDimensions;
+	int noChromosomes;
 	
-	public Population(){
-		initPop();
+	public Population(int noChromosomes, int noDimensions){
+		initPop( noChromosomes, noDimensions );
+		this.noDimensions = noDimensions;
+		this.noChromosomes = noChromosomes;
 	}
 	
-	public void initPop(){
-		chromosomes = new Chromosome[10];
-		for(int i=0; i<10; i++){
-			Chromosome c = new Chromosome(5);
+	public void initPop(int noChromosomes, int noDimensions){
+		chromosomes = new Chromosome[noChromosomes];
+		for(int i=0; i<noChromosomes; i++){
+			Chromosome c = new Chromosome(noDimensions);
 			c.initChromosome();
 			chromosomes[i] = c;
 		}
@@ -32,6 +38,9 @@ public class Population {
 		return fittest;
 	}
 	
+	public Chromosome getBest(){
+		return best;
+	}
 	
 	public Chromosome getChromosome(int pos){
 		return chromosomes[pos];
@@ -42,17 +51,20 @@ public class Population {
 	}
 	
 	public void setBest(Chromosome best){
-		this.best = best;
+		Population.best = best;
 	}
 	
-	public Population nextGen(){
-        Population newPopulation = new Population();
-        boolean elitism = false;
+	public void nextGen(){
+        Chromosome[] newPopulation = new Chromosome[noChromosomes];
+        boolean elitism = true;
         // Keep our best individual
         
-        if (elitism) {
-            newPopulation.setChromosome(0, best);
-            newPopulation.setBest(best);
+        if (elitism) 
+        {
+        	Chromosome c = new Chromosome(noDimensions);
+        	c.setBits(best.getBits());
+            newPopulation[0] = c;
+            //newPopulation.setBest(newPopulation.getChromosome(0));
         }
 
         // Crossover population
@@ -62,19 +74,21 @@ public class Population {
         // crossover
         for (int i = elitismOffset; i < this.chromosomes.length; i++) 
         {
-        	Chromosome newIndiv = new Chromosome(5);
-            Chromosome indiv1 = this.best;
+        	Chromosome newIndiv = new Chromosome(noDimensions);
+        	
+            Chromosome indiv1 = tournament();
             Chromosome indiv2 = tournament();
             
             newIndiv = crossOver(indiv1, indiv2);
-            newPopulation.setChromosome(i, newIndiv);
+            newPopulation[i] = newIndiv;
         }
 
         // Mutate population
-        for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
-            newPopulation.getChromosome(i).mutate();
+        for (int i = elitismOffset; i < newPopulation.length; i++) {
+            newPopulation[i].mutate();
         }
-        return newPopulation;
+        this.chromosomes = newPopulation;
+        getFitest(chromosomes);
 	}
 	
 	public int getSize(){
@@ -85,7 +99,12 @@ public class Population {
 	 * Cross over on the chromosomes
 	 */
 	public Chromosome crossOver(Chromosome a, Chromosome b){
-        Chromosome newSol = new Chromosome(5);
+        Chromosome newSol = new Chromosome(noDimensions);
+        if(a.getFitness() == b.getFitness())
+        {
+        	newSol.initChromosome();
+        	return newSol;
+        }
         // Loop through genes
         for (int i = 0; i < a.getBits().length; i++) {
             // Crossover
@@ -97,8 +116,14 @@ public class Population {
             	newSol.setBit(i, bit[i]);
             }
         }
+        newSol.mutate();
         return newSol;
 	}	
+	
+	public double randomDouble(){
+		Random rand = new Random();
+		return rand.nextDouble();
+	}
 	
 	public static double getValue(boolean[] bits) {
 		int n = 0;
@@ -114,9 +139,10 @@ public class Population {
 	
 	public Chromosome tournament(){
 		Chromosome c;
-		Chromosome[] tournament = new Chromosome[4];
+		Chromosome[] tournament = new Chromosome[5];
 		
-		for(int i=0;i<tournament.length; i++){
+		for(int i=0;i<tournament.length; i++)
+		{
 			 int randomId = (int) (Math.random() * chromosomes.length);
 			 tournament[i] = chromosomes[randomId];
 		}
