@@ -2,8 +2,6 @@ package ga;
 
 import java.util.Random;
 
-import Global.C;
-
 public class Population {
 	
 	private Chromosome[] chromosomes;
