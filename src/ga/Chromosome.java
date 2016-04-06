@@ -41,7 +41,7 @@ public class Chromosome {
 	public void mutate()
 	{
 		for(boolean b : bits){
-			if(randomDouble() < 0.2)
+			if(randomDouble() < C.mutation)
 			b = (b) ? false : true;
 		}
 	}

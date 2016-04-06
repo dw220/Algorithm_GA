@@ -1,4 +1,7 @@
-package ga;
+package Global;
+
+import ga.Goodness;
+import ga.Population;
 
 public class SphereFunction implements Goodness {
 

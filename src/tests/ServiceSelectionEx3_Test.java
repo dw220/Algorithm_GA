@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import Global.ServiceSelectionEx3;
 import ga.Chromosome;
 import ga.Ga;
-import ga.ServiceSelectionEx3;
 
 public class ServiceSelectionEx3_Test {
 

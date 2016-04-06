@@ -1,4 +1,6 @@
-package ga;
+package Global;
+
+import ga.Goodness;
 
 public class ServiceSelectionEx3 implements Goodness {
 

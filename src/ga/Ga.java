@@ -34,17 +34,17 @@ public class Ga {
 		solIter = iterations;
 		
 		for(int i=0; i<iterations; i++){
-			System.out.println("New Generation: " + i);
+			//System.out.println("New Generation: " + i);
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(population.getChromosome(x).getBits());
 				population.getChromosome(x).setFitness(fitness);
-				System.out.println(population.getChromosome(x));
+				//System.out.println(population.getChromosome(x));
 				if (minimizeSign * fitness <= minimizeSign * goodness.fitness(population.getBest().getBits())) {
 					population.setBest(population.getChromosome(x));
 					if ( Math.abs(fitness - solution) < 0.001 ) {
 							solIter = i + 1;
 							found = true;
-							System.out.println("Optimal found");
+							//System.out.println("Optimal found");
 							return;
 					} 
 				}
