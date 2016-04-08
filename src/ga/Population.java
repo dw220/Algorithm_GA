@@ -65,7 +65,7 @@ public class Population {
             //newPopulation.setBest(newPopulation.getChromosome(0));
         }
 
-        // Crossover population
+        //Set the offset so the current best doesnt get overridden
         int elitismOffset = (elitism) ? 1 : 0;
 
         // Loop over the population size and create new individuals with
@@ -74,8 +74,8 @@ public class Population {
         {
         	Chromosome newIndiv = new Chromosome(noDimensions);
         	
-            Chromosome indiv1 = tournament();
-            Chromosome indiv2 = tournament();
+            Chromosome indiv1 = rouletteSelection();
+            Chromosome indiv2 = rouletteSelection();
             
             newIndiv = crossOver(indiv1, indiv2);
             newPopulation[i] = newIndiv;
@@ -98,12 +98,8 @@ public class Population {
 	 */
 	public Chromosome crossOver(Chromosome a, Chromosome b){
         Chromosome newSol = new Chromosome(noDimensions);
-        if(a.getFitness() == b.getFitness())
-        {
-        	newSol.initChromosome();
-        	return newSol;
-        }
-        // Loop through genes
+ 
+//        // Loop through genes
         for (int i = 0; i < a.getBits().length; i++) {
             // Crossover
             if (Math.random() <= 0.5) {
@@ -147,4 +143,43 @@ public class Population {
 		c = getFitest(tournament);
 		return c;
 	}
+	
+	
+	/**
+	 * Roulette selection, had to work out a way in which to deal with negative values.
+	 */
+	public Chromosome rouletteSelection(){
+		  	float totalScore = 0;
+		    float runningScore = 0;
+
+		    for (Chromosome c : chromosomes)
+		    {
+		        totalScore += (c.getFitness() + 2000);
+		    }
+
+		    float rnd = (float) (Math.random() * totalScore);
+
+		    for (Chromosome c : chromosomes)
+		    {   
+		        if (    rnd>=runningScore &&
+		                rnd<=runningScore+(c.getFitness() + 2000))
+		        {
+		            return c;
+		        }
+		        runningScore+=(c.getFitness() + 2000);
+		    }
+
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

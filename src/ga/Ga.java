@@ -1,8 +1,5 @@
 package ga;
 
-import java.util.Random;
-
-import Global.C;
 
 
 public class Ga {

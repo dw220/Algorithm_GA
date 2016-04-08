@@ -1,13 +1,12 @@
 package tests;
 
-import static org.junit.Assert.*;
+
 
 import java.util.Arrays;
 
 import org.junit.Test;
 
 import Global.ServiceSelectionEx3;
-import ga.Chromosome;
 import ga.Ga;
 
 public class ServiceSelectionEx3_Test {
@@ -62,7 +61,6 @@ public class ServiceSelectionEx3_Test {
 		double iterations = 0;
 		double found = 0;
 		long max = 10000;
-		Chromosome best = null;
 		
 		for (int i = 1; i <= max; i++) {
 			Ga bpso = new Ga(5, ServiceSelectionEx3.NUM_DIMENSIONS);

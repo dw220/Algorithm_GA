@@ -64,6 +64,13 @@ public class Chromosome {
 		}
 		return s;
 	}
+	double prob = 0.0;
+	public void setProb(double prob){
+		this.prob = prob;
+	}
 	
+	public double getProb(){
+		return this.prob;
+	}
 	
 }
