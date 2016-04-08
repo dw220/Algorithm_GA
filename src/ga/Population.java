@@ -74,8 +74,8 @@ public class Population {
         {
         	Chromosome newIndiv = new Chromosome(noDimensions);
         	
-            Chromosome indiv1 = rouletteSelection();
-            Chromosome indiv2 = rouletteSelection();
+            Chromosome indiv1 = tournament();
+            Chromosome indiv2 = tournament();
             
             newIndiv = crossOver(indiv1, indiv2);
             newPopulation[i] = newIndiv;
