@@ -31,7 +31,7 @@ public class Ga {
 		solIter = iterations;
 		
 		for(int i=0; i<iterations; i++){
-			//System.out.println("New Generation: " + i);
+			System.out.println("New Generation: " + i);
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(population.getChromosome(x).getBits());
 				population.getChromosome(x).setFitness(fitness);
