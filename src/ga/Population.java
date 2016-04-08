@@ -74,8 +74,8 @@ public class Population {
         {
         	Chromosome newIndiv = new Chromosome(noDimensions);
         	
-            Chromosome indiv1 = tournament();
-            Chromosome indiv2 = tournament();
+            Chromosome indiv1 = rouletteSelection();
+            Chromosome indiv2 = rouletteSelection();
             
             newIndiv = crossOver(indiv1, indiv2);
             newPopulation[i] = newIndiv;
@@ -98,7 +98,11 @@ public class Population {
 	 */
 	public Chromosome crossOver(Chromosome a, Chromosome b){
         Chromosome newSol = new Chromosome(noDimensions);
- 
+        if(a.getFitness() == b.getFitness())
+        {
+        	newSol.initChromosome();
+        	return newSol;
+        }
 //        // Loop through genes
         for (int i = 0; i < a.getBits().length; i++) {
             // Crossover
