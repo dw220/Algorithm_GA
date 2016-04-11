@@ -15,6 +15,11 @@ public class Population {
 		this.noChromosomes = noChromosomes;
 	}
 	
+	/**
+	 * Create initial population to use within the algorithm
+	 * @param noChromosomes number of population members to use within the algorithm
+	 * @param noDimensions number of dimensions used for the bit pattern
+	 */
 	public void initPop(int noChromosomes, int noDimensions){
 		chromosomes = new Chromosome[noChromosomes];
 		for(int i=0; i<noChromosomes; i++){
@@ -26,6 +31,11 @@ public class Population {
 		best = getFitest(chromosomes);
 	}
 	
+	/**
+	 * Selects the current fitest valued chromosome out of the population used for the elitism method
+	 * @param c array of chromosomes to search
+	 * @return the strongest chromosome for the current solution
+	 */
 	public Chromosome getFitest(Chromosome[] c){
 		Chromosome fittest = c[0];
 		for(int i=0; i<c.length;i++){
@@ -36,10 +46,19 @@ public class Population {
 		return fittest;
 	}
 	
+	/**
+	 * return the current best Chromosome found
+	 * @return
+	 */
 	public Chromosome getBest(){
 		return best;
 	}
 	
+	/**
+	 * Get a particular chromosome in the population
+	 * @param pos
+	 * @return
+	 */
 	public Chromosome getChromosome(int pos){
 		return chromosomes[pos];
 	}
@@ -74,8 +93,8 @@ public class Population {
         {
         	Chromosome newIndiv = new Chromosome(noDimensions);
         	
-            Chromosome indiv1 = rouletteSelection();
-            Chromosome indiv2 = rouletteSelection();
+            Chromosome indiv1 = tournament();
+            Chromosome indiv2 = tournament();
             
             newIndiv = crossOver(indiv1, indiv2);
             newPopulation[i] = newIndiv;
