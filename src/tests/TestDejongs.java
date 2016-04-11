@@ -17,20 +17,27 @@ public class TestDejongs {
 	
 	@Test
 	public void testIntN5Minimize() {
-		long start = System.currentTimeMillis();
-		Ga bpso = new Ga(40, SumIntFunctionN5.NUM_DIMENSIONS);
-		SumIntFunctionN5 goodness =  new SumIntFunctionN5();
-		bpso.optimize(10000, goodness, false);		
 		
-		for (int i=0; i < SumIntFunctionN5.VARIABLES; i++) {
-			assertTrue( Math.abs(SumIntFunctionN5.MIN - goodness.getN(0)) < 0.5);
+		long time = 0;
+		for(int j=0; j < 10; j++){
+			long start = System.currentTimeMillis();
+			Ga bpso = new Ga(40, SumIntFunctionN5.NUM_DIMENSIONS);
+			SumIntFunctionN5 goodness =  new SumIntFunctionN5();
+			bpso.optimize(10000, goodness, false);		
+			for (int i=0; i < SumIntFunctionN5.VARIABLES; i++) {
+				assertTrue( Math.abs(SumIntFunctionN5.MIN - goodness.getN(0)) < 0.5);
+			}
+			long end = System.currentTimeMillis();
+			time += end-start;
 		}
-		long end = System.currentTimeMillis();
-		System.out.println("Time taken for: " + (end - start) + " TestIntN5Minimize ---------");
+		System.out.println("Time taken for: " + time/10 + " TestIntN5Minimize ---------");
 	}
 	
 	@Test
 	public void testSphereMinimize() {
+		
+		long time = 0;
+		for(int j=0; j < 10; j++){
 		long start = System.currentTimeMillis();
 		Ga bpso = new Ga(40, SphereFunction.NUM_DIMENSIONS);
 		SphereFunction goodness =  new SphereFunction();
@@ -42,11 +49,16 @@ public class TestDejongs {
 		assertTrue( Math.abs(SphereFunction.MIN - goodness.getValue(Population.bestGlobal().getBits())) < 0.5);
 		
 		long end = System.currentTimeMillis();
-		System.out.println("Time taken for: " + (end - start) + " Test Sphere minimize ---------");
+		time += end-start;
+		}
+		System.out.println("Time taken for: " + time/10 + " Test Sphere minimize ---------");
+
 	}
 	
 	@Test
 	public void testSphereMaximize() {
+		long time = 0;
+		for(int j=0; j < 10; j++){
 		long start = System.currentTimeMillis();
 		Ga bpso = new Ga(40, SphereFunction.NUM_DIMENSIONS);
 		SphereFunction goodness =  new SphereFunction();
@@ -59,11 +71,16 @@ public class TestDejongs {
 				    || Math.abs(-SphereFunction.MAX - goodness.getValue(Population.bestGlobal().getBits())) < 0.5);
 		
 		long end = System.currentTimeMillis();
-		System.out.println("Time taken for: " + (end - start) + " Test Sphere Maximize ---------");
+		time += end-start;
+
 	}
+		System.out.println("Time taken for: " + time/10 + " Test Sphere Maximize ---------");
+	}	
 	
 	@Test
 	public void testSphereMinimizeN3() {
+		long time = 0;
+		for(int j=0; j < 10; j++){
 		long start = System.currentTimeMillis();
 		Ga bpso = new Ga(40, SphereFunctionN3.NUM_DIMENSIONS);
 		SphereFunctionN3 goodness =  new SphereFunctionN3();
@@ -81,6 +98,9 @@ public class TestDejongs {
 		assertTrue( Math.abs(SphereFunctionN3.MIN - goodness.getN2()) < 0.5);
 		assertTrue( Math.abs(SphereFunctionN3.MIN - goodness.getN3()) < 0.5);
 		long end = System.currentTimeMillis();
-		System.out.println("Time taken for: " + (end - start) + " Test Sphere MinimizeN3 ---------");
+		time += end-start;
+	}
+		System.out.println("Time taken for: " +time/10+ " Test Sphere MinimizeN3 ---------");
+
 	}
 }
