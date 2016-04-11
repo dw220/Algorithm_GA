@@ -156,18 +156,13 @@ public class Population {
 		  	float totalScore = 0;
 		    float runningScore = 0;
 
-		    for (Chromosome c : chromosomes)
-		    {
+		    for (Chromosome c : chromosomes){
 		        totalScore += (c.getFitness() + 2000);
 		    }
-
 		    float rnd = (float) (Math.random() * totalScore);
-
-		    for (Chromosome c : chromosomes)
-		    {   
+		    for (Chromosome c : chromosomes){   
 		        if (    rnd>=runningScore &&
-		                rnd<=runningScore+(c.getFitness() + 2000))
-		        {
+		                rnd<=runningScore+(c.getFitness() + 2000)){
 		            return c;
 		        }
 		        runningScore+=(c.getFitness() + 2000);

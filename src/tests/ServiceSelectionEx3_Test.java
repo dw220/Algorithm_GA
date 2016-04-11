@@ -82,10 +82,8 @@ public class ServiceSelectionEx3_Test {
 			sumTimes += end;
 //			System.out.println("Particle value: " + Particle.getValue(Particle.bestGlobal()));
 //			System.out.println("Particle bit string: " + Arrays.toString(Particle.bestGlobal()));
-//			System.out.println("Particle goodness: " + serviceSelectionEx3.getGoodness(Particle.bestGlobal()));
-			
+//			System.out.println("Particle goodness: " + serviceSelectionEx3.getGoodness(Particle.bestGlobal()));	
 		}
-		
 		System.out.println("Time spend: " + sumTimes/max);
 		System.out.println("Iterations: " + iterations/max);
 		System.out.println("Success: " + found);

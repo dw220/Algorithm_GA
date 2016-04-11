@@ -31,10 +31,10 @@ public class Ga {
 		solIter = iterations;
 		
 		for(int i=0; i<iterations; i++){
+			System.out.println("Generation no: " + i);
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(population.getChromosome(x).getBits());
 				population.getChromosome(x).setFitness(fitness);
-				//System.out.println(population.getChromosome(x));
 				if (minimizeSign * fitness <= minimizeSign * goodness.fitness(population.getBest().getBits())) {
 					population.setBest(population.getChromosome(x));
 					if ( Math.abs(fitness - solution) < 0.001 ) {
