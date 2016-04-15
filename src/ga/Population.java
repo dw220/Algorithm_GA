@@ -71,6 +71,8 @@ public class Population {
 		Population.best = best;
 	}
 	
+	
+	
 	public void nextGen(){
         Chromosome[] newPopulation = new Chromosome[noChromosomes];
         boolean elitism = true;
@@ -113,11 +115,25 @@ public class Population {
 	}
 	
 	/**
+	 * Return true if chromosomes have the same bit pattern, this is to stop premature convergence
+	 * 
+	 */
+	public boolean checkChromosomes(Chromosome a, Chromosome b){
+		boolean check = true;
+		for(int i=0; i < a.getBits().length; i++){
+			if(a.getBits()[i] != b.getBits()[i]){
+				check = false;
+			}
+		}
+		return check;
+	}
+	
+	/**
 	 * Cross over on the chromosomes
 	 */
 	public Chromosome crossOver(Chromosome a, Chromosome b){
         Chromosome newSol = new Chromosome(noDimensions);
-        if(a.getFitness() == b.getFitness())
+        if(checkChromosomes(a, b))
         {
         	newSol.initChromosome();
         	return newSol;

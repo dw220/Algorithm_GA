@@ -31,7 +31,6 @@ public class Ga {
 		solIter = iterations;
 		
 		for(int i=0; i<iterations; i++){
-			System.out.println("Generation no: " + i);
 			for(int x=0; x<noChromosomes; x++){
 				double fitness = goodness.fitness(population.getChromosome(x).getBits());
 				population.getChromosome(x).setFitness(fitness);
@@ -40,7 +39,7 @@ public class Ga {
 					if ( Math.abs(fitness - solution) < 0.001 ) {
 							solIter = i + 1;
 							found = true;
-							//System.out.println("Optimal found");
+							System.out.println("Optimal found in: " + i + " Iterations");
 							return;
 					} 
 				}

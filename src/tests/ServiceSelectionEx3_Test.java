@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import Global.ServiceSelectionEx3;
 import ga.Ga;
+import ga.Population;
 
 public class ServiceSelectionEx3_Test {
 
@@ -73,16 +74,15 @@ public class ServiceSelectionEx3_Test {
 			//Change to double, 160 is an int not a double
 			bpso.setSol(160);
 			bpso.optimize(1000, serviceSelectionEx3, true);
-
 			
-			found += (bpso.getFound() ? 1 : 0);
+			found += (bpso.getFound()) ? 1 : 0;
 			iterations += bpso.getSolIter();
 			long end = System.currentTimeMillis() - start;
 			
 			sumTimes += end;
-//			System.out.println("Particle value: " + Particle.getValue(Particle.bestGlobal()));
-//			System.out.println("Particle bit string: " + Arrays.toString(Particle.bestGlobal()));
-//			System.out.println("Particle goodness: " + serviceSelectionEx3.getGoodness(Particle.bestGlobal()));	
+			System.out.println("Particle value: " + Population.getValue(Population.bestGlobal().getBits()));
+			System.out.println("Particle bit string: " + Arrays.toString(Population.bestGlobal().getBits()));
+			System.out.println("Particle goodness: " + serviceSelectionEx3.fitness((Population.bestGlobal().getBits())));	
 		}
 		System.out.println("Time spend: " + sumTimes/max);
 		System.out.println("Iterations: " + iterations/max);
