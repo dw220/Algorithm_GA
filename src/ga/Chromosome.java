@@ -69,9 +69,10 @@ public class Chromosome {
 	 */
 	public void mutate()
 	{
-		for(boolean b : bits){
-			if(randomDouble() < C.mutation)
-			b = (b) ? false : true;
+		for(int i=0;i<bits.length;i++){
+			if(randomDouble() < C.mutation){
+			bits[i] = (bits[i]) ? false : true;
+			}
 		}
 	}
 	

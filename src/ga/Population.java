@@ -133,12 +133,6 @@ public class Population {
 	 */
 	public Chromosome crossOver(Chromosome a, Chromosome b){
         Chromosome newSol = new Chromosome(noDimensions);
-        if(checkChromosomes(a, b))
-        {
-        	newSol.initChromosome();
-        	return newSol;
-        }
-//        // Loop through genes
         for (int i = 0; i < a.getBits().length; i++) {
             // Crossover
             if (Math.random() <= 0.5) {
