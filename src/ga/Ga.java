@@ -24,6 +24,9 @@ public class Ga {
 		this.solution = solution;
 	}
 	
+	/**
+	 * Same structure here as the PSO. Makes it easier to use the same tests
+	 */
 	public void optimize(int iterations, Goodness goodness, boolean maximize)
 	{
 		double minimizeSign = maximize ? -1. : 1.;
