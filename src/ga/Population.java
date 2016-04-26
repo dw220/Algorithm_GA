@@ -76,28 +76,22 @@ public class Population {
 	public void nextGen(){
         Chromosome[] newPopulation = new Chromosome[noChromosomes];
         boolean elitism = true;
-        // Keep our best individual
-        
-        if (elitism) 
-        {
+        // Keep our best individual    
+        if (elitism) {
         	Chromosome c = new Chromosome(noDimensions);
         	c.setBits(best.getBits());
             newPopulation[0] = c;
             //newPopulation.setBest(newPopulation.getChromosome(0));
         }
-
         //Set the offset so the current best doesnt get overridden
         int elitismOffset = (elitism) ? 1 : 0;
-
         // Loop over the population size and create new individuals with
         // crossover
         for (int i = elitismOffset; i < this.chromosomes.length; i++) 
         {
         	Chromosome newIndiv = new Chromosome(noDimensions);
-        	
             Chromosome indiv1 = tournament();
             Chromosome indiv2 = tournament();
-            
             newIndiv = crossOver(indiv1, indiv2);
             newPopulation[i] = newIndiv;
         }
@@ -135,7 +129,7 @@ public class Population {
         Chromosome newSol = new Chromosome(noDimensions);
         for (int i = 0; i < a.getBits().length; i++) {
             // Crossover
-            if (Math.random() <= 0.5) {
+            if (Math.random() <= 0.7) {
             	boolean[] bit = a.getBits();
                 newSol.setBit(i, bit[i]);
             } else {
@@ -179,7 +173,8 @@ public class Population {
 	
 	
 	/**
-	 * Roulette selection, had to work out a way in which to deal with negative values.
+	 * Roulette selection, had to work out a way in which to deal with negative values adding worst possible value to all
+	 * to eliminate negative, but keeping the same distance between them.
 	 */
 	public Chromosome rouletteSelection(){
 		  	float totalScore = 0;
